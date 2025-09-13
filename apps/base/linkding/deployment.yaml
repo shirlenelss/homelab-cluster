@@ -11,9 +11,9 @@ spec:
     metadata:
       labels: 
         app: linkding
-      spec:
-        containers:
-          - name: linkding
-            image: sissbruecker/linkding:1.31.0
-            ports: 
-              - containerPort: 9090
+    spec:
+      containers:
+        - name: linkding
+          image: sissbruecker/linkding:1.31.0
+          ports: 
+            - containerPort: 9090
