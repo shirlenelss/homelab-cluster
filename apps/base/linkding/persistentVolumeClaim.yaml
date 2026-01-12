@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: standard   # or gp2, gp3, local-path, etc.
+  storageClassName: local-path   # or gp2, gp3, local-path, etc.
