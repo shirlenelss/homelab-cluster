@@ -23,9 +23,11 @@ spec:
       securityContext:         
         runAsNonRoot: true
         runAsUser: 33
-        runAsUser: 33
         runAsGroup: 33
-        allowPrivilegeEscalation: false       
+        allowPrivilegeEscalation: false   
+        capabilities:
+          drop:
+            - ALL    
       volumes:
         - name: linkding-data
           persistentVolumeClaim:
