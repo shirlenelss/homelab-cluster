@@ -20,14 +20,15 @@ spec:
           volumeMounts:       
             - name: linkding-data
               mountPath: /data  # where Linkding stores its data 
-      securityContext:         
+      securityContext:
         runAsNonRoot: true
+        fsGroup: 33 #all mounted volumes owner
         runAsUser: 33
         runAsGroup: 33
-        allowPrivilegeEscalation: false   
+        allowPrivilegeEscalation: false
         capabilities:
           drop:
-            - ALL    
+            - ALL
       volumes:
         - name: linkding-data
           persistentVolumeClaim:
