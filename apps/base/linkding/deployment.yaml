@@ -19,7 +19,12 @@ spec:
             - containerPort: 9090
           volumeMounts:       
             - name: linkding-data
-              mountPath: /data  # where Linkding stores its data  
+              mountPath: /data  # where Linkding stores its data 
+      securityContext:         
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsUser: 1000
+        runAsGroup: 1000       
       volumes:
         - name: linkding-data
           persistentVolumeClaim:
