@@ -1,0 +1,9 @@
+initContainers:
+- name: volume-fix
+  image: alpine
+  securityContext:
+    runAsUser: 0        # root
+  command: ["sh", "-c", "chown -R 33:33 /data && chmod -R g+rwX /data"]
+  volumeMounts:
+  - mountPath: /data
+    name: linkding-data
