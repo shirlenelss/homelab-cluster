@@ -22,7 +22,7 @@ spec:
               mountPath: /data  # where Linkding stores its data 
       securityContext:
         runAsNonRoot: true
-        fsGroup: 33 #all mounted volumes owner
+        fsGroup: 0 #all mounted volumes owner
         runAsUser: 33
         runAsGroup: 33
         allowPrivilegeEscalation: false
