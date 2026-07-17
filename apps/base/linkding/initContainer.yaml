@@ -3,7 +3,7 @@ initContainers:
   image: alpine
   securityContext:
     runAsUser: 0        # root
-  command: ["sh", "-c", "chown -R 33:33 /data && chmod -R g+rwX /data"]
+  command: ["sh", "-c", "chown -R 33:33 /etc/linkding/data && chmod -R g+rwX /etc/linkding/data"]
   volumeMounts:
-  - mountPath: /data
+  - mountPath: /etc/linkding/data
     name: linkding-data
