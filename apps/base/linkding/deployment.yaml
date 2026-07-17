@@ -23,7 +23,7 @@ spec:
                name: linkding-secrets
           volumeMounts:       
             - name: linkding-data
-              mountPath: /data  # where Linkding stores its data 
+              mountPath: /etc/linkding/data  # where Linkding stores its data
       securityContext:
         runAsNonRoot: true
         fsGroup: 0 #all mounted volumes owner
