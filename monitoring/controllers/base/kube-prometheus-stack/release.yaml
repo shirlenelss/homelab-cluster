@@ -28,7 +28,7 @@ spec:
                 kind: PrometheusRule
     values:
         grafana:
-            adminPassword: ENC[AES256_GCM,data:VMojLUAHZA==,iv:ddrvWK+xBg8XAD4967Kjl1MzLCe1JlBoCdiipYefdv0=,tag:LhNRZRvfTx8+XYWq1h2YZg==,type:str]
+            adminPassword: ENC[AES256_GCM,data:Y/4eM/kSr8T8sw==,iv:qev1wHAohKbHtKx7zDA3h7fohTnXsSVIBzaWxqiNMik=,tag:enRjK/bIHr7lfCcVduGS9w==,type:str]
 sops:
     age:
         - recipient: age1kk0pr2s3cmmy7lmp90hptz46vr6vdr3dq8t6a5cnhtvtkz90speqsyvysn
@@ -40,7 +40,7 @@ sops:
             azRlK1BpS1k1ckQ1VFZvQVVSZWkyUTAKjjQLkta1RsWv4XTcES6DbreKbGsxqw/4
             r8VwlMss/ya9S3bKqaqadSmzzKuyhPg6KMOe4Vm80DJu6WK7fG4VUQ==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-07-23T03:11:28Z"
-    mac: ENC[AES256_GCM,data:2MQ+JotRDACZcjW00MQozJQN0s9VqLuW2mS+F6WekwIITZdoMqUvUeOPghPettYqpvFTElyYKhvj8Y8RV0+j7qPYEm+/chiHOhVlz/WiJA099N6Qyd+GgyjYpdgFsohltFeMJBRMuLWMgRO540Z94W3506rXiSX9nc+FvE6YEUQ=,iv:MSvnsyzPeet7tYxRNEIHpfJqFwrrO8W0jfHWNKePOB4=,tag:OKocyB8GzfF2FZezv/7ASQ==,type:str]
+    lastmodified: "2026-07-23T03:30:01Z"
+    mac: ENC[AES256_GCM,data:dGkiq/SxSJl2O7rx7q2oPcZjqTdImc6pmHithVssCOoZS9D9E/gq3ftwYMvFwxonC0J2sX3cLqbzyHy/jKdxBNY7FSWRtGYsu7cLQhxjZQTxCJaQnX6e4HBbnrAg/croOdws6ge7fmvRD4BQBfJkUHiF97+FckLad4MT4tQuapM=,iv:qkNeu0A9UqXw51gAbYm8YFEBZViIt+EtQxHtn0wkw4s=,tag:EZbFwUDHlG7DUBuNlU1kTQ==,type:str]
     encrypted_regex: ^(data|stringData|adminPassword)$
     version: 3.11.0
