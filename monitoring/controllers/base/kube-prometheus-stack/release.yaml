@@ -1,33 +1,46 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kube-prometheus-stack
-  namespace: monitoring
+    name: kube-prometheus-stack
+    namespace: monitoring
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: kube-prometheus-stack
-      version: "66.2.2"
-
-      # version: "58.x"
-
-      sourceRef:
-        kind: HelmRepository
-        name: kube-prometheus-stack
-        namespace: monitoring
-      interval: 12h
-  install:
-    crds: Create
-  upgrade:
-    crds: CreateReplace
-  driftDetection:
-    mode: enabled
-    ignore:
-      # Ignore "validated" annotation which is not inserted during install
-      - paths: ["/metadata/annotations/prometheus-operator-validated"]
-        target:
-          kind: PrometheusRule
-  values:
-    grafana:
-      adminPassword: papadom
+    interval: 30m
+    chart:
+        spec:
+            chart: kube-prometheus-stack
+            version: 66.2.2
+            sourceRef:
+                kind: HelmRepository
+                name: kube-prometheus-stack
+                namespace: monitoring
+            interval: 12h
+    install:
+        crds: Create
+    upgrade:
+        crds: CreateReplace
+    driftDetection:
+        mode: enabled
+        ignore:
+            # Ignore "validated" annotation which is not inserted during install
+            - paths:
+                - /metadata/annotations/prometheus-operator-validated
+              target:
+                kind: PrometheusRule
+    values:
+        grafana:
+            adminPassword: ENC[AES256_GCM,data:VMojLUAHZA==,iv:ddrvWK+xBg8XAD4967Kjl1MzLCe1JlBoCdiipYefdv0=,tag:LhNRZRvfTx8+XYWq1h2YZg==,type:str]
+sops:
+    age:
+        - recipient: age1kk0pr2s3cmmy7lmp90hptz46vr6vdr3dq8t6a5cnhtvtkz90speqsyvysn
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBSVURXN3hSTXErblpVMTRt
+            T0NYQ2QxUG5rWG9vSFhoZnZvQmtobW12alZzCmdGcVN6RGhHVkgrREpFN2Noayt5
+            dGZabUE1Y2pseE9kc0d1T1NUQ29FanMKLS0tIFJLbVY1VzJaNHdDbCtpZ0FuaCs0
+            azRlK1BpS1k1ckQ1VFZvQVVSZWkyUTAKjjQLkta1RsWv4XTcES6DbreKbGsxqw/4
+            r8VwlMss/ya9S3bKqaqadSmzzKuyhPg6KMOe4Vm80DJu6WK7fG4VUQ==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-07-23T03:11:28Z"
+    mac: ENC[AES256_GCM,data:2MQ+JotRDACZcjW00MQozJQN0s9VqLuW2mS+F6WekwIITZdoMqUvUeOPghPettYqpvFTElyYKhvj8Y8RV0+j7qPYEm+/chiHOhVlz/WiJA099N6Qyd+GgyjYpdgFsohltFeMJBRMuLWMgRO540Z94W3506rXiSX9nc+FvE6YEUQ=,iv:MSvnsyzPeet7tYxRNEIHpfJqFwrrO8W0jfHWNKePOB4=,tag:OKocyB8GzfF2FZezv/7ASQ==,type:str]
+    encrypted_regex: ^(data|stringData|adminPassword)$
+    version: 3.11.0
