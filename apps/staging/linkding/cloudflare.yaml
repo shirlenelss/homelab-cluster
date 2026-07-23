@@ -68,7 +68,7 @@ data:
   config.yaml: |
     # Name of the tunnel you want to run
     
-    tunnel: ldpi
+    tunnel: ldpi-v2
 
     credentials-file: /etc/cloudflared/creds/credentials.json
 
