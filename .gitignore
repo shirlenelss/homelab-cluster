@@ -1,3 +1,4 @@
 /istio-1.30.2/
 age.key
 tunnel-credentials.json
+grafana_tunnel_credential.json

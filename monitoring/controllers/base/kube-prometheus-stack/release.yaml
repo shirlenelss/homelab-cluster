@@ -28,19 +28,26 @@ spec:
                 kind: PrometheusRule
     values:
         grafana:
-            adminPassword: ENC[AES256_GCM,data:Y/4eM/kSr8T8sw==,iv:qev1wHAohKbHtKx7zDA3h7fohTnXsSVIBzaWxqiNMik=,tag:enRjK/bIHr7lfCcVduGS9w==,type:str]
+            adminPassword: ENC[AES256_GCM,data:k4dgV4x4G5/Ugg==,iv:m1ga/wAeNpGU9pp1zGbsK5FGR1rx3LrmG4+MEAueKlk=,tag:VPSugEs2qCbFWGMpJu1RwA==,type:str]
+            ingress:
+                enabled: true
+                ingressClassName: traefik
+                hosts:
+                    - grafana.shirlenelim.se
+                path: /
+                pathType: Prefix
 sops:
     age:
         - recipient: age1kk0pr2s3cmmy7lmp90hptz46vr6vdr3dq8t6a5cnhtvtkz90speqsyvysn
           enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBSVURXN3hSTXErblpVMTRt
-            T0NYQ2QxUG5rWG9vSFhoZnZvQmtobW12alZzCmdGcVN6RGhHVkgrREpFN2Noayt5
-            dGZabUE1Y2pseE9kc0d1T1NUQ29FanMKLS0tIFJLbVY1VzJaNHdDbCtpZ0FuaCs0
-            azRlK1BpS1k1ckQ1VFZvQVVSZWkyUTAKjjQLkta1RsWv4XTcES6DbreKbGsxqw/4
-            r8VwlMss/ya9S3bKqaqadSmzzKuyhPg6KMOe4Vm80DJu6WK7fG4VUQ==
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA5bk1RN055M0pJOHNaVlJh
+            Q0pNSG9NSXUyenhqRUl6YVMvWTdFOFBCdUU4CnFTcWJCcGx6MzJCZTBKRmdMbFFT
+            S0NVa1VkOWUzZFNUdWF6TkpFVWovRVEKLS0tIDJyUGdCOXVYWWMwWGYrTjhTc3ZC
+            dE9rYW1MUHJ0VUMxR25BZFdoMUJZUTQKO1o5r28OozLzcOAjn7HfYf16l6+uGPpp
+            9HOJxirJnCC0xpeLPpo/COh7Z3iUckcTy+DZLOH/r8EQsMoIVhZu6A==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-07-23T03:30:01Z"
-    mac: ENC[AES256_GCM,data:dGkiq/SxSJl2O7rx7q2oPcZjqTdImc6pmHithVssCOoZS9D9E/gq3ftwYMvFwxonC0J2sX3cLqbzyHy/jKdxBNY7FSWRtGYsu7cLQhxjZQTxCJaQnX6e4HBbnrAg/croOdws6ge7fmvRD4BQBfJkUHiF97+FckLad4MT4tQuapM=,iv:qkNeu0A9UqXw51gAbYm8YFEBZViIt+EtQxHtn0wkw4s=,tag:EZbFwUDHlG7DUBuNlU1kTQ==,type:str]
+    lastmodified: "2026-07-23T14:00:32Z"
+    mac: ENC[AES256_GCM,data:WD2gfwJhCR6ZUr13s2M+lLhdheyIVFRtqsgkYuGzr+QS1Kv5qh8whZSc2DwHWzL9MHYJwQ5TXdkePupEZJH0MKiK/MkokqjA1KAnJkmjDDCmOngEojjn/q7VbqpEuejMgPgdCXpBHL2ER71CzbtKV1U1upFZVEn0hzlWZartVw8=,iv:IG30UUUrZdv/zSV7MA+BQdoHzK7wlJNMZff/oXy09w4=,tag:El2TwS7BwFZ4VGhW3/QfFg==,type:str]
     encrypted_regex: ^(data|stringData|adminPassword)$
     version: 3.11.0
