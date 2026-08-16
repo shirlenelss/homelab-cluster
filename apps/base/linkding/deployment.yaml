@@ -12,6 +12,12 @@ spec:
     metadata:
       labels: 
         app: linkding
+      # This annotation is used by the Linkding application to determine the base URL for generating links.
+      # It should be set to the external URL where Linkding will be accessible.
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics" # Optional, if it is not /metrics
     spec:
       containers:
         - name: linkding
