@@ -4541,9 +4541,7 @@ spec:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       securityContext:
-        runAsUser: 65534
-        runAsGroup: 65534
-        fsGroup: 65534
+        fsGroup: 1337
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
       volumes:
@@ -6021,9 +6019,7 @@ spec:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       securityContext:
-        runAsUser: 65534
-        runAsGroup: 65534
-        fsGroup: 65534
+        fsGroup: 1337
       serviceAccountName: kustomize-controller
       terminationGracePeriodSeconds: 60
       volumes:
@@ -8760,9 +8756,7 @@ spec:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       securityContext:
-        runAsUser: 65534
-        runAsGroup: 65534
-        fsGroup: 65534
+        fsGroup: 1337
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
       volumes:
@@ -10193,9 +10187,7 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
       securityContext:
-        runAsUser: 65534
-        runAsGroup: 65534
-        fsGroup: 65534
+        fsGroup: 1337
       serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
       volumes:
