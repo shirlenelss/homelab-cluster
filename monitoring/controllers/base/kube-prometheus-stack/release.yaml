@@ -28,7 +28,7 @@ spec:
                 kind: PrometheusRule
     values:
         grafana:
-            adminPassword: ENC[AES256_GCM,data:k4dgV4x4G5/Ugg==,iv:m1ga/wAeNpGU9pp1zGbsK5FGR1rx3LrmG4+MEAueKlk=,tag:VPSugEs2qCbFWGMpJu1RwA==,type:str]
+            adminPassword: ENC[AES256_GCM,data:PYWovvgAa9MIMg==,iv:d/0sGzexSX6yizi4MClD5PhHsOalUn2I4mGZ1JpLZvA=,tag:JPljzF9jIBU2800o0NGcvg==,type:str]
             ingress:
                 enabled: true
                 ingressClassName: traefik
@@ -36,18 +36,60 @@ spec:
                     - grafana.shirlenelim.se
                 path: /
                 pathType: Prefix
+                ## TLS configuration for grafana Ingress
+                ## Secret must be manually created in the namespace
+                ##
+                tls:
+                    - secretName: grafana-tls-secret
+                      hosts:
+                        - grafana.shirlenelim.se
+        prometheus:
+            prometheusSpec:
+                ## Honors the prometheus.io/scrape, prometheus.io/path and prometheus.io/port
+                ## pod annotations, since not every workload ships a ServiceMonitor/PodMonitor.
+                additionalScrapeConfigs:
+                    - job_name: kubernetes-pods
+                      kubernetes_sd_configs:
+                        - role: pod
+                      relabel_configs:
+                        - source_labels:
+                            - __meta_kubernetes_pod_annotation_prometheus_io_scrape
+                          action: keep
+                          regex: true
+                        - source_labels:
+                            - __meta_kubernetes_pod_annotation_prometheus_io_path
+                          action: replace
+                          target_label: __metrics_path__
+                          regex: (.+)
+                        - source_labels:
+                            - __address__
+                            - __meta_kubernetes_pod_annotation_prometheus_io_port
+                          action: replace
+                          regex: ([^:]+)(?::\d+)?;(\d+)
+                          replacement: $1:$2
+                          target_label: __address__
+                        - action: labelmap
+                          regex: __meta_kubernetes_pod_label_(.+)
+                        - source_labels:
+                            - __meta_kubernetes_namespace
+                          action: replace
+                          target_label: kubernetes_namespace
+                        - source_labels:
+                            - __meta_kubernetes_pod_name
+                          action: replace
+                          target_label: kubernetes_pod_name
 sops:
     age:
         - recipient: age1kk0pr2s3cmmy7lmp90hptz46vr6vdr3dq8t6a5cnhtvtkz90speqsyvysn
           enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA5bk1RN055M0pJOHNaVlJh
-            Q0pNSG9NSXUyenhqRUl6YVMvWTdFOFBCdUU4CnFTcWJCcGx6MzJCZTBKRmdMbFFT
-            S0NVa1VkOWUzZFNUdWF6TkpFVWovRVEKLS0tIDJyUGdCOXVYWWMwWGYrTjhTc3ZC
-            dE9rYW1MUHJ0VUMxR25BZFdoMUJZUTQKO1o5r28OozLzcOAjn7HfYf16l6+uGPpp
-            9HOJxirJnCC0xpeLPpo/COh7Z3iUckcTy+DZLOH/r8EQsMoIVhZu6A==
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB1TzJrekY2RENwbG9pSXJt
+            dEJzT1ErQjRoc0hORG9WZm5HUU5CUFkwZVhBCjRJREdNOFBQVXZQN1RBeE40Ukd0
+            Wk5URjdOWnBxcEEzU0FPZFoyRlNGbDQKLS0tIE9CZHFDQzFLQTFYQm9HdjY5c2tj
+            aWxqdVV0d2J0c2dteUZ0dVJEZlJvNVEKC23p5aKYjosNYUwq+c2WK9wZTjAFGDcl
+            2Q/lo9YykYZxgM0KgBrLbSQr+7kabNOo82zIXTL+G/lkIH+Ca+jllw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-07-23T14:00:32Z"
-    mac: ENC[AES256_GCM,data:WD2gfwJhCR6ZUr13s2M+lLhdheyIVFRtqsgkYuGzr+QS1Kv5qh8whZSc2DwHWzL9MHYJwQ5TXdkePupEZJH0MKiK/MkokqjA1KAnJkmjDDCmOngEojjn/q7VbqpEuejMgPgdCXpBHL2ER71CzbtKV1U1upFZVEn0hzlWZartVw8=,iv:IG30UUUrZdv/zSV7MA+BQdoHzK7wlJNMZff/oXy09w4=,tag:El2TwS7BwFZ4VGhW3/QfFg==,type:str]
+    lastmodified: "2026-08-16T20:34:04Z"
+    mac: ENC[AES256_GCM,data:2iD8bu4zUtXBa3hinlto4Jw8llRF/JHbPMkcoeGQ+NITh29J8zdhda5iTTU2juHOn16blgKibmXtjmGziN3FBvT+RkqvA9oSCNNVIbCftpC1F8p1XJ//DeQWnPo3pxem8PyJgwtmaFg0IUstEy0T5O1R7QwdoBFwqaKR6TITGOk=,iv:8ek9349GSmRy5Zing8J1qAH94eEmiHOcuI+F/NWzyl4=,tag:AqCCsW5RVAQGVBg8mUN/9g==,type:str]
     encrypted_regex: ^(data|stringData|adminPassword)$
     version: 3.11.0
