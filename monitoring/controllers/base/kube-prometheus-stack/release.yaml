@@ -28,19 +28,24 @@ spec:
                 kind: PrometheusRule
     values:
         grafana:
-            adminPassword: ENC[AES256_GCM,data:PYWovvgAa9MIMg==,iv:d/0sGzexSX6yizi4MClD5PhHsOalUn2I4mGZ1JpLZvA=,tag:JPljzF9jIBU2800o0NGcvg==,type:str]
+            adminPassword: ENC[AES256_GCM,data:GRv7VyNrM7F/Cg==,iv:y5vqDn6O5oMp8oj/cG7FTmz70Cc2HXOCLe7tyqjr+us=,tag:NLNdWyt6pPMl0r7Jl601bg==,type:str]
             ingress:
                 enabled: true
                 ingressClassName: traefik
+                annotations:
+                    # cert-manager watches ingresses for this annotation and
+                    # auto-provisions/renews a cert into tls[0].secretName below
+                    # via the letsencrypt-prod ClusterIssuer (DNS-01/Cloudflare).
+                    cert-manager.io/cluster-issuer: letsencrypt-prod
                 hosts:
                     - grafana.shirlenelim.se
                 path: /
                 pathType: Prefix
-                ## TLS configuration for grafana Ingress
-                ## Secret must be manually created in the namespace
-                ##
+                ## TLS configuration for grafana Ingress.
+                ## secretName is managed by cert-manager, not manually created -
+                ## do not point this at the old hand-provisioned grafana-tls-secret.
                 tls:
-                    - secretName: grafana-tls-secret
+                    - secretName: grafana-tls-letsencrypt
                       hosts:
                         - grafana.shirlenelim.se
         prometheus:
@@ -83,13 +88,13 @@ sops:
         - recipient: age1kk0pr2s3cmmy7lmp90hptz46vr6vdr3dq8t6a5cnhtvtkz90speqsyvysn
           enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB1TzJrekY2RENwbG9pSXJt
-            dEJzT1ErQjRoc0hORG9WZm5HUU5CUFkwZVhBCjRJREdNOFBQVXZQN1RBeE40Ukd0
-            Wk5URjdOWnBxcEEzU0FPZFoyRlNGbDQKLS0tIE9CZHFDQzFLQTFYQm9HdjY5c2tj
-            aWxqdVV0d2J0c2dteUZ0dVJEZlJvNVEKC23p5aKYjosNYUwq+c2WK9wZTjAFGDcl
-            2Q/lo9YykYZxgM0KgBrLbSQr+7kabNOo82zIXTL+G/lkIH+Ca+jllw==
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDZkp6bFUraFlGRU0yUENP
+            Tm04UFBoODNGWDdzNDQ0RWRXNHJUYmxxbkZFCllYVkFkQ3VSSTVOVis0QTFJWUF5
+            QUppb1hHZmdiY0hNZ2lKTVBRQ0poM2MKLS0tIEZiZmF2TXFmb3hHVFhwQUZtK2JO
+            cjUyZmYvTVpTNTFGek5rVmM1ejI5VGcKqt4QrHLC63BHbLWJW+GBHJ4eS2FDqgte
+            2PpCsUYxvRWaiWGXVgFYX/B+kfcR0I55aYQomuDAvTLUdJjxiOb4mQ==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-08-16T20:34:04Z"
-    mac: ENC[AES256_GCM,data:2iD8bu4zUtXBa3hinlto4Jw8llRF/JHbPMkcoeGQ+NITh29J8zdhda5iTTU2juHOn16blgKibmXtjmGziN3FBvT+RkqvA9oSCNNVIbCftpC1F8p1XJ//DeQWnPo3pxem8PyJgwtmaFg0IUstEy0T5O1R7QwdoBFwqaKR6TITGOk=,iv:8ek9349GSmRy5Zing8J1qAH94eEmiHOcuI+F/NWzyl4=,tag:AqCCsW5RVAQGVBg8mUN/9g==,type:str]
+    lastmodified: "2026-08-16T22:37:39Z"
+    mac: ENC[AES256_GCM,data:eULennhkIcV4DEJzVADXvMN4UdOoT2KK69nEY4aiM4R4VqhR2cPRCFnvoa2rxqsSUgeaPg3XvLIrHlQjfC+mwTpdjHjPl9/Tyvt+55q3p3Iv9i4PlChigRUMXoxoHMlkDHuNQFUsveuUGj5+Ic5GIrmTmM7OS8hvfbWh+hvY5vk=,iv:j1VZiNX64ZR/UlbyfJW7IjoHcdcxU6qcWlKunbjDP+g=,tag:mCFP1O6OP023Kja1TIPiMA==,type:str]
     encrypted_regex: ^(data|stringData|adminPassword)$
     version: 3.11.0
