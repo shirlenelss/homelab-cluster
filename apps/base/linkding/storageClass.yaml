@@ -1,0 +1,12 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-path-retain
+# Same provisioner as the cluster-wide "local-path" default, but with
+# reclaimPolicy: Retain so that deleting the PVC (accidentally, via a
+# botched Flux prune, or otherwise) never deletes the underlying data on
+# disk. A deleted PVC just leaves its PV in "Released" state, requiring a
+# manual step to rebind/reclaim it instead of silently destroying data.
+provisioner: rancher.io/local-path
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
