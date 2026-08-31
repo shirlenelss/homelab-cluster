@@ -1,4 +1,12 @@
 /istio-1.30.2/
-age.key
-tunnel-credentials.json
-grafana_tunnel_credential.json
+certs/age.key
+certs/tunnel-credentials.json
+certs/grafana_tunnel_credential.json
+/.certs/.grafana_tunnel_credential.json
+/monitoring/tls.crt
+/monitoring/tls.key
+/.idea/
+/monitoring/default-value.yaml
+/.env_linkding
+/.certs/
+/docs/grafana-networking-explained.md

@@ -79,5 +79,11 @@ data:
     ingress:
     - hostname: ldpi.shirlenelim.se
       service: http://linkding:9090
+    # Grafana lives in the "monitoring" namespace; cloudflared runs in "linkding",
+    # so this needs the fully-qualified in-cluster service name. Only the
+    # Public Dashboard URL is meant to be used unauthenticated - the rest of
+    # Grafana (login, API, editing) is reachable too, just still gated by auth.
+    - hostname: grafana.shirlenelim.se
+      service: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local:80
     #  This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
     - service: http_status:404

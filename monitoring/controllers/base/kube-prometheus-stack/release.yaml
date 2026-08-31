@@ -28,7 +28,18 @@ spec:
                 kind: PrometheusRule
     values:
         grafana:
-            adminPassword: ENC[AES256_GCM,data:GRv7VyNrM7F/Cg==,iv:y5vqDn6O5oMp8oj/cG7FTmz70Cc2HXOCLe7tyqjr+us=,tag:NLNdWyt6pPMl0r7Jl601bg==,type:str]
+            adminPassword: ENC[AES256_GCM,data:t0Cu6IDwi5NDtQ==,iv:QAGGNM+mp2Zq01MN0TCC0ywETOlV+fYD7lkViOSTKMw=,tag:8qWQGJXSojxPQ8Rd5PaWNw==,type:str]
+            ## Without this, /var/lib/grafana (sqlite db) is an ephemeral
+            ## volume - any pod restart silently wipes the Public Dashboard
+            ## toggle (stored in the db, not in dashboard JSON) and any
+            ## other UI-only state (API keys, alert silences).
+            persistence:
+                enabled: true
+                type: sts
+                storageClassName: local-path-retain
+                accessModes:
+                    - ReadWriteOnce
+                size: 1Gi
             ingress:
                 enabled: true
                 ingressClassName: traefik
@@ -50,6 +61,11 @@ spec:
                         - grafana.shirlenelim.se
         prometheus:
             prometheusSpec:
+                ## Attached to every series scraped by this Prometheus - lets you
+                ## tell metrics from this cluster apart from others in Grafana/queries
+                ## without having to reference this cluster's node IP.
+                externalLabels:
+                    cluster: homelab
                 ## Honors the prometheus.io/scrape, prometheus.io/path and prometheus.io/port
                 ## pod annotations, since not every workload ships a ServiceMonitor/PodMonitor.
                 additionalScrapeConfigs:
@@ -83,18 +99,31 @@ spec:
                             - __meta_kubernetes_pod_name
                           action: replace
                           target_label: kubernetes_pod_name
+        prometheus-node-exporter:
+            prometheus:
+                monitor:
+                    ## Replaces the "instance" label (normally IP:port, e.g.
+                    ## 192.168.5.15:9100) with the node's hostname, so dashboards/
+                    ## queries/dropdowns show something readable instead of an IP.
+                    ## Dynamic (not hardcoded) so this still works correctly if a
+                    ## second node is ever added - each node keeps its own label.
+                    relabelings:
+                        - sourceLabels:
+                            - __meta_kubernetes_pod_node_name
+                          targetLabel: instance
+                          action: replace
 sops:
     age:
         - recipient: age1kk0pr2s3cmmy7lmp90hptz46vr6vdr3dq8t6a5cnhtvtkz90speqsyvysn
           enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDZkp6bFUraFlGRU0yUENP
-            Tm04UFBoODNGWDdzNDQ0RWRXNHJUYmxxbkZFCllYVkFkQ3VSSTVOVis0QTFJWUF5
-            QUppb1hHZmdiY0hNZ2lKTVBRQ0poM2MKLS0tIEZiZmF2TXFmb3hHVFhwQUZtK2JO
-            cjUyZmYvTVpTNTFGek5rVmM1ejI5VGcKqt4QrHLC63BHbLWJW+GBHJ4eS2FDqgte
-            2PpCsUYxvRWaiWGXVgFYX/B+kfcR0I55aYQomuDAvTLUdJjxiOb4mQ==
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBZNVRVSGF2aXJndHFnQ3JH
+            ai9lTmNvVTVlOHZocUVjRU4yOWg1Q0pDS1hrCmxoenVOVUVoMmxXb0IxRThTanpW
+            SlhyY09tdXFuZGJKQ0wyM21XZ1hNWlUKLS0tIEFVRWhJWk1uSkkzUm8vdG9RMk1P
+            TUQyamE2aVBTODlndnpyQ0RRVEFGbjgKgOB5bm2pHM1htk9N7urLegewKW2wb8VU
+            dUJBceB5c8Tpv6tXNOXIs++CdCFIx0tBDcBcfI4ksyK9NSicP7B+TA==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-08-16T22:37:39Z"
-    mac: ENC[AES256_GCM,data:eULennhkIcV4DEJzVADXvMN4UdOoT2KK69nEY4aiM4R4VqhR2cPRCFnvoa2rxqsSUgeaPg3XvLIrHlQjfC+mwTpdjHjPl9/Tyvt+55q3p3Iv9i4PlChigRUMXoxoHMlkDHuNQFUsveuUGj5+Ic5GIrmTmM7OS8hvfbWh+hvY5vk=,iv:j1VZiNX64ZR/UlbyfJW7IjoHcdcxU6qcWlKunbjDP+g=,tag:mCFP1O6OP023Kja1TIPiMA==,type:str]
+    lastmodified: "2026-08-31T10:36:42Z"
+    mac: ENC[AES256_GCM,data:tMZ9FwjHVR4YpDA9yBQQPrpLi04Tb2SfDBxBN/lM2UdkwMVA+9jFDOT3Q5xsCxYXYO+p5mZpqC8WyscQhaFebDxTbePC78cYZkj82+esmiaplmRqPaEvcT48Hc0OoiVScchwLCDrQYVx0zusFZmF26iLymiqX2ncg/n++Kb2H1o=,iv:v0D/rH07yeI4j5f15/27t330KsJBvKhTen+XFBI95Lk=,tag:l6mt0onQfncF3ZTdv+uvmg==,type:str]
     encrypted_regex: ^(data|stringData|adminPassword)$
     version: 3.11.0
