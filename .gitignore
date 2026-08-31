@@ -10,3 +10,4 @@ certs/grafana_tunnel_credential.json
 /.env_linkding
 /.certs/
 /docs/grafana-networking-explained.md
+/.renovate.key

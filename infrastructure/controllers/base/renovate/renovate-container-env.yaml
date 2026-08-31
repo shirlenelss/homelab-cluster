@@ -1,0 +1,21 @@
+apiVersion: v1
+data:
+    RENOVATE_TOKEN: ENC[AES256_GCM,data:/bYalmn64KXI9AMT399vOvJfjMvaFUr/qxPCs7LTytPSeHOPQ05vXtgpLVhk9cap3lzryGIiJQ4=,iv:nCLm6j2YaGcmbx7d9l3Ql41o54qDC8OPa3FAmAiIVt0=,tag:eQnkU2YbBVWfJ5yuUv0rOA==,type:str]
+kind: Secret
+metadata:
+    name: renovate-container-env
+sops:
+    age:
+        - recipient: age1kk0pr2s3cmmy7lmp90hptz46vr6vdr3dq8t6a5cnhtvtkz90speqsyvysn
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBGaWgxYk9mamhjTGYvait5
+            T05IazJNcGx1d3FoMFFReVgyNnZBZlBrOXhrCi81T2E2MkM2NFJhMTlWMFF3WjIy
+            VmVlWkoxMU53czJTK2N1dERyVytlb1kKLS0tIFU3eCswd3c0SVdwMitYMGNKcmVO
+            VWpWQ1VpWkU2WkxSek9rQVBjbmRndGMK87MrEyekIxs6++TrGE+bmFdkQkLrWVY1
+            C9yRs241wJxZ33ERnZJAV1PA3ej6pgrx6pwVIIN6mngQsnbMMIiHlw==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-08-31T20:44:03Z"
+    mac: ENC[AES256_GCM,data:H7wx0y/7eb/6WwgmURCwJCuFo8Dj3mLld9r/9xYoZYD9Ttz+O7F0OpXO38GIp06+fb13RJEry2UWvCzxniZDcjyqlBycGcqa5omzFon985ktlBlIDTNaGw3nCFNaUdSaF6x8fditG74iELz3UCTAbQhKgZLsqrdMo5e8Z1qYtEw=,iv:fHwAI2wRrzrD0pyobcOYBnGLmjzQoYwzUPkPb34ItAs=,tag:P20fZIvwzoXVFL+HCpzP9w==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.11.0
