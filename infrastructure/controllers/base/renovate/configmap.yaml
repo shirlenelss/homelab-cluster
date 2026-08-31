@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: renovate-configmap
+data:
+  RENOVATE_PLATFORM: "github"
+  # This is a single-user homelab repo with no existing renovate.json -
+  # without this, Renovate's first run opens a "Configure Renovate"
+  # onboarding PR every single hourly run instead of just scanning for updates.
+  RENOVATE_ONBOARDING: "false"
+  LOG_LEVEL: "info"
