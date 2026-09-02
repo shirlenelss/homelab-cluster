@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cert-manager
+  name: infrastructure
   namespace: flux-system
 spec:
   interval: 1m0s
@@ -10,55 +10,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  # Points directly at the cert-manager subfolder, not the shared
-  # infrastructure/controllers/staging/ aggregator, so unrelated
-  # not-yet-deployed work sitting in that aggregator (e.g. renovate)
-  # doesn't get pulled in as a side effect.
-  path: ./infrastructure/controllers/staging/cert-manager
-  prune: true
-  # Wait until the HelmRelease (and its CRDs) are actually healthy before
-  # cert-manager-config below is allowed to apply ClusterIssuer, which
-  # depends on a CRD this Kustomization installs.
-  wait: true
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: cert-manager-config
-  namespace: flux-system
-spec:
-  interval: 1m0s
-  retryInterval: 1m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/controllers/staging/cert-manager-config
-  prune: true
-  dependsOn:
-    - name: cert-manager
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: renovate
-  namespace: flux-system
-spec:
-  interval: 1m0s
-  retryInterval: 1m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/controllers/staging/renovate
+  path: ./infrastructure/controllers/staging/
   prune: true
   decryption:
     provider: sops
