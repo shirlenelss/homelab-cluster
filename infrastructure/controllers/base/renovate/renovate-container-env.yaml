@@ -4,6 +4,7 @@ data:
 kind: Secret
 metadata:
     name: renovate-container-env
+    namespace: renovate
 sops:
     age:
         - recipient: age1kk0pr2s3cmmy7lmp90hptz46vr6vdr3dq8t6a5cnhtvtkz90speqsyvysn
