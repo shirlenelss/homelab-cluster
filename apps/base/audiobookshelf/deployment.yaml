@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audiobookshelf
+  namespace: audiobookshelf
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: audiobookshelf
+  template:
+    metadata:
+      labels:
+        app: audiobookshelf
+    spec:
+      # audiobookshelf's image is Node-based and runs as root by default, with
+      # no PUID/PGID remapping like linuxserver.io images (its own /etc/passwd
+      # only has a "node" user at 1000:1000, not 33 - 33 here just matches
+      # this repo's linkding convention). This root init container chowns
+      # the fresh, root-owned PVCs to 33:33 so the main container can run
+      # as that non-root uid/gid instead.
+      initContainers:
+        - name: volume-fix
+          image: alpine
+          securityContext:
+            runAsUser: 0
+            # Pod-level runAsNonRoot: true applies to every container
+            # including init containers unless overridden here - without
+            # this, runAsUser: 0 above is rejected at admission.
+            runAsNonRoot: false
+          command: ["sh", "-c", "chown -R 33:33 /config /metadata /podcasts /audiobooks"]
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+            - name: data-volume
+              mountPath: /metadata
+            - name: podcast-volume
+              mountPath: /podcasts
+            - name: audiobooks-volume
+              mountPath: /audiobooks
+      containers:
+        - name: audiobookshelf
+          image: ghcr.io/advplyr/audiobookshelf:latest
+          ports:
+          - containerPort: 80
+          resources: {}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+            - name: data-volume
+              mountPath: /metadata
+            - name: podcast-volume
+              mountPath: /podcasts
+            - name: audiobooks-volume
+              mountPath: /audiobooks
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 33
+        runAsGroup: 33
+        fsGroup: 33
+      volumes:
+        - name: config-volume
+          persistentVolumeClaim:
+            claimName: audiobookshelf-config
+        - name:  data-volume
+          persistentVolumeClaim:
+            claimName: audiobookshelf-data
+        - name:  podcast-volume
+          persistentVolumeClaim:
+            claimName: audiobookshelf-podcast
+        - name:  audiobooks-volume
+          persistentVolumeClaim:
+            claimName: audiobookshelf-audiobooks

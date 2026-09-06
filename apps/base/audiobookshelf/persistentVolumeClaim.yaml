@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-data
+  namespace: audiobookshelf
+  annotations:
+    # Never let Flux delete this PVC as part of a prune, even if it looks
+    # orphaned due to a kustomization/structure mistake elsewhere. See the
+    # 2026-08-16 incident where a missing "flux-system" resource entry
+    # caused Flux to cascade-delete this PVC and wipe all bookmark data.
+    kustomize.toolkit.fluxcd.io/prune: "disabled"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  storageClassName: local-path
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-config
+  namespace: audiobookshelf
+  annotations:
+    # Never let Flux delete this PVC as part of a prune, even if it looks
+    # orphaned due to a kustomization/structure mistake elsewhere. See the
+    # 2026-08-16 incident where a missing "flux-system" resource entry
+    # caused Flux to cascade-delete this PVC and wipe all bookmark data.
+    kustomize.toolkit.fluxcd.io/prune: "disabled"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  storageClassName: local-path
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-audiobooks
+  namespace: audiobookshelf
+  annotations:
+    # Never let Flux delete this PVC as part of a prune, even if it looks
+    # orphaned due to a kustomization/structure mistake elsewhere. See the
+    # 2026-08-16 incident where a missing "flux-system" resource entry
+    # caused Flux to cascade-delete this PVC and wipe all bookmark data.
+    kustomize.toolkit.fluxcd.io/prune: "disabled"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Mi
+  storageClassName: local-path
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-podcast
+  namespace: audiobookshelf
+  annotations:
+    # Never let Flux delete this PVC as part of a prune, even if it looks
+    # orphaned due to a kustomization/structure mistake elsewhere. See the
+    # 2026-08-16 incident where a missing "flux-system" resource entry
+    # caused Flux to cascade-delete this PVC and wipe all bookmark data.
+    kustomize.toolkit.fluxcd.io/prune: "disabled"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Mi
+  storageClassName: local-path
