@@ -43,7 +43,7 @@ spec:
         - name: audiobookshelf
           image: ghcr.io/advplyr/audiobookshelf:latest
           ports:
-          - containerPort: 80
+          - containerPort: 3005
           resources: {}
           volumeMounts:
             - name: config-volume
@@ -59,6 +59,9 @@ spec:
             capabilities:
               drop:
                 - ALL
+          envFrom:
+            - configMapRef:
+                name: audiobookshelf-config
       securityContext:
         runAsNonRoot: true
         runAsUser: 33
