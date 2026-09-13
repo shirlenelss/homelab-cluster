@@ -6,3 +6,4 @@ resources:
   - persistentVolumeClaim.yaml
   - service.yaml
   - configmap.yaml
+  - dashboard.yaml

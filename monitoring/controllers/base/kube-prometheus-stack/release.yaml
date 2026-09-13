@@ -59,6 +59,9 @@ spec:
                     - secretName: grafana-tls-letsencrypt
                       hosts:
                         - grafana.shirlenelim.se
+            sidecar:
+                dashboards:
+                    searchNamespace: ALL
         prometheus:
             prometheusSpec:
                 ## Attached to every series scraped by this Prometheus - lets you
@@ -114,8 +117,7 @@ spec:
                           action: replace
 sops:
     age:
-        - recipient: age1kk0pr2s3cmmy7lmp90hptz46vr6vdr3dq8t6a5cnhtvtkz90speqsyvysn
-          enc: |
+        - enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
             YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBZNVRVSGF2aXJndHFnQ3JH
             ai9lTmNvVTVlOHZocUVjRU4yOWg1Q0pDS1hrCmxoenVOVUVoMmxXb0IxRThTanpW
@@ -123,7 +125,8 @@ sops:
             TUQyamE2aVBTODlndnpyQ0RRVEFGbjgKgOB5bm2pHM1htk9N7urLegewKW2wb8VU
             dUJBceB5c8Tpv6tXNOXIs++CdCFIx0tBDcBcfI4ksyK9NSicP7B+TA==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-08-31T10:36:42Z"
-    mac: ENC[AES256_GCM,data:tMZ9FwjHVR4YpDA9yBQQPrpLi04Tb2SfDBxBN/lM2UdkwMVA+9jFDOT3Q5xsCxYXYO+p5mZpqC8WyscQhaFebDxTbePC78cYZkj82+esmiaplmRqPaEvcT48Hc0OoiVScchwLCDrQYVx0zusFZmF26iLymiqX2ncg/n++Kb2H1o=,iv:v0D/rH07yeI4j5f15/27t330KsJBvKhTen+XFBI95Lk=,tag:l6mt0onQfncF3ZTdv+uvmg==,type:str]
+          recipient: age1kk0pr2s3cmmy7lmp90hptz46vr6vdr3dq8t6a5cnhtvtkz90speqsyvysn
     encrypted_regex: ^(data|stringData|adminPassword)$
+    lastmodified: "2026-09-13T18:11:49Z"
+    mac: ENC[AES256_GCM,data:DmH5MFbheEgc+/8oV5yDIjV0ujzXgGKBn9OMYw3ou1wghi1AkkE1Sl2bLoO0rEsVJx7dVHv9kj7eIEydKkfP16cYySQHVa9cR1g5TZBu/5JOEendn5l0IbWdVBZxYUMPAx52xAbQjNaulqrf40L9nyMHykFgYjeZnKClYjXPSrg=,iv:KWaBHVyJ1Glipkjm3ZwJ6h4WDjc8mXD9qLGApjyLbLU=,tag:TrcBXOV/jtGqX8+P+ckxOA==,type:str]
     version: 3.11.0

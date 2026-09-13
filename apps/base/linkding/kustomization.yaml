@@ -6,3 +6,4 @@ resources:
   - storageClass.yaml
   - persistentVolumeClaim.yaml
   - service.yaml
+  - dashboard.yaml
