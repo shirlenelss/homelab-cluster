@@ -4,5 +4,6 @@ resources:
   - flux-system
   - apps.yaml
   - monitoring.yaml
+  - cert-manager.yaml
   - infrastructure.yaml
 
