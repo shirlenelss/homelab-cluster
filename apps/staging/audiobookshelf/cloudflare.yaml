@@ -70,7 +70,7 @@ data:
     # (cloudflared tunnel login), cloudflared can't resolve a tunnel name
     # via the Cloudflare API and fails with "error parsing tunnel ID".
     # The ID by itself needs no such lookup.
-    tunnel: 206b3088-7064-41e1-8dc5-38da37db8bcb
+    tunnel: 798d4fca-de84-48dd-94af-f1fe689c4c16
 
     credentials-file: /etc/cloudflared/creds/credentials.json
 

@@ -66,9 +66,8 @@ metadata:
   name: cloudflared
 data:
   config.yaml: |
-    # Name of the tunnel you want to run
-    
-    tunnel: ldpi-v2
+    # By ID, not name - see the note in audiobookshelf/cloudflare.yaml.
+    tunnel: 7e85ef66-e984-4eb9-af66-3af305c7e0e9
 
     credentials-file: /etc/cloudflared/creds/credentials.json
 
